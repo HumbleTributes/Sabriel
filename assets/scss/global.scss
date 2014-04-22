@@ -4,12 +4,52 @@
 
 // endbower
 
-// Delete all of this!
-@import url("//fonts.googleapis.com/css?family=Jim+Nightshade|Kaushan+Script");
-$colour: #EAC7BA;
-$colour-darker: darken($colour, 10%);
-$colour-lighter: lighten($colour, 5%);
+// Vars
+$red: #AB6029;
+$orange: #D77510;
+$yellow: #F4E91D;
+$shadow: #1F170A;
 
+$texture-mask: "texture-mask.png";
+
+// Mixins
+
+
+// Animations
+@keyframes intro {
+	from {
+		opacity: 0;
+		transform: translateY(-1em);
+	}
+	25%, 75% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(1em);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+// Styles
 *, *:before, *:after {
 	@include box-sizing(border-box);
 	margin: 0;
@@ -17,32 +57,153 @@ $colour-lighter: lighten($colour, 5%);
 }
 
 html, body {
+	background: white;
+	color: $orange;
 	height: 100%;
 	width: 100%;
 }
 
 body {
+	box-shadow: 0 0 7.5em 0 lighten($orange, 25%) inset, 0 0 5em 0 lighten($yellow, 25%) inset;
+	// font-family: "Average", serif;
+	// font-family: "Neuton", serif;
+	// font-family: "Mate", serif;
+	// font-family: "Yeseva One", cursive;
+	// font-family: "Noto Serif", serif;
+	// font-family: "PT Serif", serif;
+	// font-family: "Tienne", serif;
+	// font-family: "Alike", serif;
+	// font-family: "Cinzel", serif;
+	font-family: "Fanwood Text", serif;
+	// font-family: "Adamina", serif;
+	// font-family: "Montaga", serif;
+	// font-family: "Trykker", serif;
+	font-size: 100%;
+	line-height: 1.3em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1em;
+}
+
+h1 {
+	// font-family: "Aguafina Script", cursive;
+	// font-family: "Quintessential", cursive;
+	font-family: "Eagle Lake", cursive;
+	// font-family: "Felipa", cursive;
+	// font-family: "Merienda One", cursive;
+	// font-family: "Merienda", cursive;
+	// font-family: "Fondamento", cursive;
+	font-size: 8em;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+.title, .charter-canvas {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	
-	background: image-url("background.jpg") no-repeat center center;
-	background-size: cover;
-	color: $colour;
-	font-family: "Jim Nightshade", cursive;
-	font-family: "Kaushan Script", cursive;
-	font-size: 100%;
-	line-height: 1.4em;
-	text-shadow: 1px 1px $colour-darker;
+	flex-direction: column;
 }
 
-.tao-te-ching {
-	font-size: 3em;
-	line-height: 1.2em;
-	padding: 1em;
-	max-width: 16em;
-	footer {
-		color: $colour-lighter;
-		font-size: 70%;
+.title {
+	background: image-url("background.png") no-repeat center bottom;
+	background-size: 100% auto;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	z-index: 1;
+	h1, h2 {
+		animation-name: intro;
+		animation-fill-mode: both;
+		animation-timing-function: ease-in;
+	}
+	h1 {
+		animation-duration: 7s;
+		font-weight: 100;
+		margin-bottom: 1rem;
+		-webkit-mask-image: image-url($texture-mask);
+		mask-image: image-url($texture-mask);
+		&:first-letter {
+			font-size: 135%;
+		}
+	}
+	h2 {
+		animation-duration: 3s;
+		animation-delay: 3s;
+		color: $orange;
+		font-weight: 900;
+	}
+}
+
+.charter-canvas, .charter-marks {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.charter-canvas {
+	font-family: "Charter Marks", cursive;
+	z-index: 0;
+}
+
+.master-mark {
+	animation-name: fadeIn;
+	animation-duration: 3s;
+	animation-timing-function: ease;
+	animation-delay: 8s;
+	animation-fill-mode: both;
+	font-size: 16em;
+}
+
+.charter-marks {
+	.charter-mark {
+		animation-name: fadeIn, scaleIn;
+		animation-delay: 10s;
+		animation-duration: 2s;
+		animation-timing-function: ease;
+		animation-fill-mode: both;
+		position: absolute;
+		&:nth-child(2n) {
+			animation-delay: 10s + 1s;
+			animation-duration: 3.5s;
+			font-size: 1.5em;
+		}
+		&:nth-child(3n) {
+			animation-delay: 10s + 1.2s;
+			animation-duration: 3.2s;
+			font-size: 1.25em;
+		}
+		&:nth-child(4n) {
+			animation-delay: 10s + 1.3s;
+			animation-duration: 3.3s;
+			font-size: 1.1em;
+		}
+		&:nth-child(5n) {
+			animation-delay: 10s + 1.4s;
+			animation-duration: 3.5s;
+			font-size: 1.3em
+		}
+		&:nth-child(6n) {
+			animation-delay: 10s + 1.5s;
+			animation-duration: 3.2s;
+			font-size: 1.2em;
+		}
+		&:nth-child(7n) {
+			animation-delay: 10s + 1.2s;
+			animation-duration: 3.4s;
+			font-size: 1em;
+		}
+		&:nth-child(8n) {
+			animation-delay: 10s + 1s;
+			animation-duration: 3.1s;
+			font-size: 1em;
+		}
 	}
 }

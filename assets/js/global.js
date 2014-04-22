@@ -1,1 +1,1 @@
-"use strict";console.log("Your new tribute!");
+"use strict";window.onload=function(){function a(a){var c=document.createElement("span");c.setAttribute("class","charter-mark"),c.setAttribute("style","left: "+100*Math.random()+"%; top: "+100*Math.random()+"%;"),c.innerHTML=a,b.appendChild(c)}for(var b=(document.getElementById("charter-canvas"),document.getElementById("charter-marks")),c=300,d=[],e=0;c>e;e++){var f="abcdefghijklmnopqrstuvwxyz";f=f.split("");var g=f[Math.floor(Math.random()*f.length)];d.push(g)}for(var e=d.length-1;e>=0;e--)new a(d[e])};
