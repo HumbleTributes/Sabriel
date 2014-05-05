@@ -214,6 +214,28 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin'
       ]
+    },
+
+    // Create Web Fonts
+    webfont: {
+      icons: {
+        src: 'designs/SVG/*.svg',
+        dest: 'assets/fonts',
+        destCss: 'assets/scss/base',
+        syntax: 'bootstrap',
+        options: {
+          font: 'charter-marks',
+          stylesheet: 'scss',
+          relativeFontPath: '/assets/fonts',
+          htmlDemo: false,
+          ligatures: true
+        },
+        templateOptions: {
+          baseClass: 'charter-mark',
+          classPrefix: 'charter-',
+          mixinPrefix: 'charter-'
+        }
+      }
     }
   });
   
@@ -257,6 +279,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'common',
+    'webfont',
     'modernizr'
   ]);
 

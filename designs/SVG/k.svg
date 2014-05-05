@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="264px" height="246px" viewBox="0 0 264 246" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>k</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Charter-Marks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="K" sketch:type="MSLayerGroup" transform="translate(5.000000, 0.500000)" stroke="#000000" stroke-width="10">
+            <g id="Rectangle-1-+-Path-1" transform="translate(23.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-1" transform="translate(105.653806, 106.000000) rotate(-45.000000) translate(-105.653806, -106.000000) " x="30.6538059" y="31" width="150" height="150"></rect>
+            </g>
+            <path d="M0.580655185,76.5738636 C0.580655185,76.5738636 13.9977319,41.7215992 127.101474,99.4488635 L160.796387,110.619318 C160.796387,110.619318 200.235834,122.557164 253.622292,105.607955" id="Path-1" stroke-linecap="round" sketch:type="MSShapeGroup"></path>
+            <path d="M140,106 C140,106 115.55931,173.473685 133.701647,240" id="Path-2" stroke-linecap="round" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

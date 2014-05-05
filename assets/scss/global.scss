@@ -15,6 +15,9 @@ $texture-mask: "texture-mask.png";
 // Mixins
 
 
+// Imports
+@import "base/_charter-marks.scss";
+
 // Animations
 @keyframes intro {
 	from {
@@ -28,6 +31,7 @@ $texture-mask: "texture-mask.png";
 	to {
 		opacity: 0;
 		transform: translateY(1em);
+		visibility: hidden;
 	}
 }
 
@@ -64,20 +68,9 @@ html, body {
 }
 
 body {
+	background: linear-gradient(lighten($yellow, 35%) 30%, white);
 	box-shadow: 0 0 7.5em 0 lighten($orange, 25%) inset, 0 0 5em 0 lighten($yellow, 25%) inset;
-	// font-family: "Average", serif;
-	// font-family: "Neuton", serif;
-	// font-family: "Mate", serif;
-	// font-family: "Yeseva One", cursive;
-	// font-family: "Noto Serif", serif;
-	// font-family: "PT Serif", serif;
-	// font-family: "Tienne", serif;
-	// font-family: "Alike", serif;
-	// font-family: "Cinzel", serif;
 	font-family: "Fanwood Text", serif;
-	// font-family: "Adamina", serif;
-	// font-family: "Montaga", serif;
-	// font-family: "Trykker", serif;
 	font-size: 100%;
 	line-height: 1.3em;
 	text-align: center;
@@ -89,13 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	// font-family: "Aguafina Script", cursive;
-	// font-family: "Quintessential", cursive;
 	font-family: "Eagle Lake", cursive;
-	// font-family: "Felipa", cursive;
-	// font-family: "Merienda One", cursive;
-	// font-family: "Merienda", cursive;
-	// font-family: "Fondamento", cursive;
 	font-size: 8em;
 }
 
@@ -111,12 +98,9 @@ h2 {
 }
 
 .title {
-	background: image-url("background.png") no-repeat center bottom;
-	background-size: 100% auto;
 	height: 100%;
 	position: relative;
 	width: 100%;
-	z-index: 1;
 	h1, h2 {
 		animation-name: intro;
 		animation-fill-mode: both;
@@ -143,14 +127,19 @@ h2 {
 .charter-canvas, .charter-marks {
 	height: 100%;
 	left: 0;
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	width: 100%;
 }
 
+.charter-canvas, .master-mark {
+	font-family: "charter-marks", cursive;
+}
+
 .charter-canvas {
-	font-family: "Charter Marks", cursive;
-	z-index: 0;
+	cursor: default;
+	user-select: none;
 }
 
 .master-mark {
@@ -160,50 +149,55 @@ h2 {
 	animation-delay: 8s;
 	animation-fill-mode: both;
 	font-size: 16em;
+	z-index: 1;
 }
 
 .charter-marks {
 	.charter-mark {
 		animation-name: fadeIn, scaleIn;
 		animation-delay: 10s;
+		animation-direction: alternate, normal;
 		animation-duration: 2s;
-		animation-timing-function: ease;
 		animation-fill-mode: both;
+		animation-iteration-count: infinite, 1;
+		animation-timing-function: ease;
+		font-size: 0.5em;
 		position: absolute;
+		text-shadow: 0 0 1.5em white, 0 0 1em lighten($yellow, 20%);
 		&:nth-child(2n) {
 			animation-delay: 10s + 1s;
 			animation-duration: 3.5s;
-			font-size: 1.5em;
+			font-size: 0.7em;
 		}
 		&:nth-child(3n) {
 			animation-delay: 10s + 1.2s;
 			animation-duration: 3.2s;
-			font-size: 1.25em;
+			font-size: 0.6em;
 		}
 		&:nth-child(4n) {
 			animation-delay: 10s + 1.3s;
 			animation-duration: 3.3s;
-			font-size: 1.1em;
+			font-size: 0.7em;
 		}
 		&:nth-child(5n) {
 			animation-delay: 10s + 1.4s;
 			animation-duration: 3.5s;
-			font-size: 1.3em
+			font-size: 0.5em;
 		}
 		&:nth-child(6n) {
 			animation-delay: 10s + 1.5s;
 			animation-duration: 3.2s;
-			font-size: 1.2em;
+			font-size: 0.6em;
 		}
 		&:nth-child(7n) {
 			animation-delay: 10s + 1.2s;
 			animation-duration: 3.4s;
-			font-size: 1em;
+			font-size: 0.7em;
 		}
 		&:nth-child(8n) {
 			animation-delay: 10s + 1s;
 			animation-duration: 3.1s;
-			font-size: 1em;
+			font-size: 0.6em;
 		}
 	}
 }
