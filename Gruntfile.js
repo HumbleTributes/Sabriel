@@ -1,5 +1,5 @@
-// Generated on 2014-04-18 using
-// generator-humble-tributes 0.0.0
+// Generated on 2015-05-16 using
+// generator-webapp-advanced 0.0.11
 'use strict';
 
 // # Globbing
@@ -16,18 +16,31 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  // Configurable paths
+  var config = {
+    app: 'app',
+    dist: 'dist'
+  };
+
   // Define the configuration for all the tasks
   grunt.initConfig({
+
+    // Project settings
+    config: config,
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
         files: ['bower.json'],
-        tasks: ['bowerInstall']
+        tasks: ['wiredep']
+      },
+      images: {
+        files: ['<%= config.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg}'],
+        tasks: ['newer:copy:images']
       },
       js: {
-        files: ['assets/scripts/{,*/}*.js'],
-        // tasks: ['jshint'],
+      files: ['<%= config.app %>/scripts/{,*/}*.js'],
+        tasks: ['jshint', 'newer:copy:scripts'],
         options: {
           livereload: true
         }
@@ -39,23 +52,32 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
-      compass: {
-        files: ['assets/scss/{,*/}*.{scss,sass}'],
-        tasks: ['compass:dist', 'autoprefixer']
+      sass: {
+        files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
+        tasks: ['sass:server', 'autoprefixer', 'newer:copy:images']
       },
-      uglify: {
-        files: ['assets/scripts/{,*/}*.js'],
-        tasks: ['uglify']
+      styles: {
+        files: ['<%= config.app %>/styles/{,*/}*.css'],
+        tasks: ['newer:copy:styles', 'autoprefixer']
+      },
+      assemble: {
+        files: [
+          '<%= config.app %>/templates/layouts/*.hbs',
+          '<%= config.app %>/templates/pages/*.hbs',
+          '<%= config.app %>/templates/partials/*.hbs',
+          '<%= config.app %>/templates/data/*.json'
+        ],
+        tasks: ['assemble:server']
       },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          'index.html',
-          'assets/css/{,*/}*.css',
-          'assets/js/{,*/}*.js',
-          'assets/img/{,*/}*'
+          '.tmp/{,*/}*.html',
+          '.tmp/css/{,*/}*.css',
+          '.tmp/js/{,*/}*.js',
+          '.tmp/img/{,*/}*.{gif,jpeg,jpg,png,svg}'
         ]
       }
     },
@@ -70,22 +92,52 @@ module.exports = function (grunt) {
         hostname: 'localhost'
       },
       livereload: {
-        
+        options: {
+          middleware: function(connect) {
+            return [
+              connect.static('.tmp'),
+              connect().use('/bower_components', connect.static('./bower_components')),
+              connect.static(config.app)
+            ];
+          }
+        }
       },
       test: {
         options: {
           open: false,
-          port: 9001
+          port: 9001,
+          middleware: function(connect) {
+            return [
+              connect.static('.tmp'),
+              connect.static('test'),
+              connect().use('/bower_components', connect.static('./bower_components')),
+              connect.static(config.app)
+            ];
+          }
+        }
+      },
+      dist: {
+        options: {
+          base: '<%= config.dist %>',
+          livereload: false
         }
       }
     },
 
     // Empties folders to start fresh
-    clean: [
-      'assets/css/*',
-      'assets/js/*',
-      'assets/img/*',
-    ],
+    clean: {
+      dist: {
+        files: [{
+          dot: true,
+          src: [
+            '.tmp',
+            '<%= config.dist %>/*',
+            '!<%= config.dist %>/.git*'
+          ]
+        }]
+      },
+      server: '.tmp'
+    },
 
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
@@ -95,75 +147,112 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        'assets/scripts/{,*/}*.js',
-        '!assets/scripts/vendor/*',
+        '<%= config.app %>/scripts/{,*/}*.js',
+        '!<%= config.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
 
-    // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      dist: {
+    // Mocha testing framework configuration options
+    mocha: {
+      all: {
         options: {
-          basePath: 'assets',
-          httpPath: '../',
-          sassDir: 'scss',
-          cssDir: 'css',
-          imagesDir: 'img',
-          javascriptsDir: 'js',
-          fontsDir: 'fonts',
-          environment: 'production',
-          outputStyle: 'compressed'
+          run: true,
+          urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
         }
+      }
+    },
+
+    // Compiles Sass to CSS and generates necessary files if requested
+    sass: {
+      options: {
+        loadPath: 'bower_components'
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %>/styles',
+          src: ['*.{scss,sass}'],
+          dest: '.tmp/css',
+          ext: '.css'
+        }]
+      },
+      server: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %>/styles',
+          src: ['*.{scss,sass}'],
+          dest: '.tmp/css',
+          ext: '.css'
+        }]
       }
     },
 
     // Add vendor prefixed styles
     autoprefixer: {
       options: {
-        browsers: ['last 1 version']
+        browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
       },
       dist: {
         files: [{
           expand: true,
-          cwd: 'assets/css/',
+          cwd: '.tmp/css/',
           src: '{,*/}*.css',
-          dest: 'assets/css/'
+          dest: '.tmp/css/'
         }]
       }
     },
 
     // Automatically inject Bower components into the HTML file
-    bowerInstall: {
+    wiredep: {
       app: {
-        src: ['index.html']
+        ignorePath: /^<%= config.app %>\/|\.\.\//,
+        src: ['<%= config.app %>/templates/{,*/}*.hbs', '.tmp/{,*/}*.html']
       },
       sass: {
-        src: ['assets/scss/{,*/}*.{scss,sass}']
+        src: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
+        ignorePath: /(\.\.\/){1,2}bower_components\//
       }
     },
 
-    // // Renames files for browser caching purposes
-    // rev: {
-    //   dist: {
-    //     files: {
-    //       src: [
-    //         'assets/js/{,*/}*.js',
-    //         'assets/css/{,*/}*.css',
-    //         // 'assets/img/{,*/}*.*',
-    //         'assets/*.{ico,png}'
-    //       ]
-    //     }
-    //   }
-    // },
-
-    // 
-    uglify: {
+    // Renames files for browser caching purposes
+    rev: {
       dist: {
         files: {
-          'assets/js/global.js': ['assets/scripts/{,*/}*.js']
+          src: [
+            '<%= config.dist %>/js/{,*/}*.js',
+            '<%= config.dist %>/css/{,*/}*.css',
+            '<%= config.dist %>/img/{,*/}*.{gif,jpeg,jpg,png,svg}',
+            '<%= config.dist %>/fonts/{,*/}*.*',
+            '<%= config.dist %>/*.{ico,png}'
+          ]
         }
       }
+    },
+
+    // Reads HTML for usemin blocks to enable smart builds that automatically
+    // concat, minify and revision files. Creates configurations in memory so
+    // additional tasks can operate on them
+    useminPrepare: {
+      options: {
+        dest: '<%= config.dist %>'
+      },
+      html: '.tmp/{,*/}*.html'
+    },
+
+    // Performs rewrites based on rev and the useminPrepare configuration
+    usemin: {
+      options: {
+        assetsDirs: [
+          '<%= config.dist %>',
+          '<%= config.dist %>/img',
+          '<%= config.dist %>/css',
+          '<%= config.dist %>/js'
+        ]
+      },
+      html: ['<%= config.dist %>/{,*/}*.html',
+      '.tmp/{,*/}*.html'],
+      css: ['<%= config.dist %>/css/{,*/}*.css']
     },
 
     // The following *-min tasks produce minified files in the dist folder
@@ -171,9 +260,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'assets/images',
+          cwd: '<%= config.app %>/images',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
-          dest: 'assets/img'
+          dest: '<%= config.dist %>/img'
         }]
       }
     },
@@ -182,10 +271,103 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'assets/images',
+          cwd: '<%= config.app %>/images',
           src: '{,*/}*.svg',
-          dest: 'assets/img'
+          dest: '<%= config.dist %>/img'
         }]
+      }
+    },
+
+    htmlmin: {
+      dist: {
+        options: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          conservativeCollapse: true,
+          removeAttributeQuotes: true,
+          removeCommentsFromCDATA: true,
+          removeEmptyAttributes: true,
+          removeOptionalTags: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true
+        },
+        files: [{
+          expand: true,
+          cwd: '.tmp',
+          src: '{,*/}*.html',
+          dest: '<%= config.dist %>'
+        }]
+      }
+    },
+
+    // By default, your `index.html`'s <!-- Usemin block --> will take care
+    // of minification. These next options are pre-configured if you do not
+    // wish to use the Usemin blocks.
+    // cssmin: {
+    //   dist: {
+    //     files: {
+    //       '<%= config.dist %>/styles/main.css': [
+    //         '.tmp/styles/{,*/}*.css',
+    //         '<%= config.app %>/styles/{,*/}*.css'
+    //       ]
+    //     }
+    //   }
+    // },
+    // uglify: {
+    //   dist: {
+    //     files: {
+    //       '<%= config.dist %>/scripts/scripts.js': [
+    //         '<%= config.dist %>/scripts/scripts.js'
+    //       ]
+    //     }
+    //   }
+    // },
+    // concat: {
+    //   dist: {}
+    // },
+
+    // Copies remaining files to places other tasks can use
+    copy: {
+      dist: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= config.app %>',
+          dest: '<%= config.dist %>',
+          src: [
+            '*.{ico,png,txt}',
+            'images/{,*/}*.webp',
+            '{,*/}*.html',
+            'fonts/{,*/}*.*'
+          ]
+        }, {
+          src: 'node_modules/apache-server-configs/dist/.htaccess',
+          dest: '<%= config.dist %>/.htaccess'
+        }, {
+          src: 'CNAME',
+          dest: '<%= config.dist %>/CNAME'
+        }]
+      },
+      styles: {
+        expand: true,
+        dot: true,
+        cwd: '<%= config.app %>/styles',
+        dest: '.tmp/css/',
+        src: '{,*/}*.css'
+      },
+      scripts: {
+        expand: true,
+        dot: true,
+        cwd: '<%= config.app %>/scripts',
+        dest: '.tmp/js/',
+        src: '{,*/}*.js'
+      },
+      images: {
+        expand: true,
+        dot: true,
+        cwd: '<%= config.app %>/images',
+        dest: '.tmp/img/',
+        src: '{,*/}*.{gif,jpeg,jpg,png,svg}'
       }
     },
 
@@ -194,12 +376,12 @@ module.exports = function (grunt) {
     modernizr: {
       dist: {
         devFile: 'bower_components/modernizr/modernizr.js',
-        outputFile: 'assets/js/vendor/modernizr.js',
+        outputFile: '<%= config.dist %>/js/vendor/modernizr.js',
         files: {
           src: [
-            'assets/js/{,*/}*.js',
-            'assets/css/{,*/}*.css',
-            '!assets/js/vendor/*'
+            '<%= config.dist %>/js/{,*/}*.js',
+            '<%= config.dist %>/css/{,*/}*.css',
+            '!<%= config.dist %>/js/vendor/*'
           ]
         },
         uglify: true
@@ -208,51 +390,125 @@ module.exports = function (grunt) {
 
     // Run some tasks in parallel to speed up build process
     concurrent: {
+      server: [
+        'sass:server',
+        'copy:styles',
+        'copy:scripts',
+        'assemble:server',
+        'copy:images'
+      ],
+      test: [
+        'copy:styles',
+        'copy:scripts'
+      ],
       dist: [
-        'compass',
-        'uglify',
+        'sass',
+        'copy:styles',
+        'copy:scripts',
+        'assemble:dist',
         'imagemin',
         'svgmin'
       ]
     },
 
-    // Create Web Fonts
-    webfont: {
-      icons: {
-        src: 'designs/SVG/*.svg',
-        dest: 'assets/fonts',
-        destCss: 'assets/scss/base',
-        syntax: 'bootstrap',
+    // Using the Assemble plugin to provide templating
+    assemble: {
+      options: {
+        flatten: true,
+        layout: 'default.hbs',
+        layoutdir: '<%= config.app %>/templates/layouts',
+        assets: '<%= config.dist %>/img',
+        data: ['<%= config.app %>/templates/data/*.{json,yml}'],
+        partials: ['<%= config.app %>/templates/partials/*.hbs']
+      },
+      server: {
+        files: [{
+          cwd: '<%= config.app %>/templates/pages/',
+          dest: '.tmp/',
+          expand: true,
+          src: ['**/*.hbs', '!_pages/**/*.hbs']
+        }],
+        production: false
+      },
+      dist: {
+        files: [{
+          cwd: '<%= config.app %>/templates/pages/',
+          dest: '.tmp/',
+          expand: true,
+          src: ['**/*.hbs', '!_pages/**/*.hbs']
+        }],
+        production: true
+      }
+    },
+
+    // Run Uncss and remove all redundant CSS
+    uncss: {
+      dist: {
         options: {
-          font: 'charter-marks',
-          stylesheet: 'scss',
-          relativeFontPath: '/assets/fonts',
-          htmlDemo: false,
-          ligatures: true
+          stylesheets: ['../.tmp/css/main.css']
         },
-        templateOptions: {
-          baseClass: 'charter-mark',
-          classPrefix: 'charter-',
-          mixinPrefix: 'charter-'
+        files: {
+          '.tmp/css/main.css': ['dist/index.html']
+        }
+      }
+    },
+
+    // Generate all instances of Favicons known to man!!!
+    favicons: {
+      options: {
+        trueColor: true,
+        precomposed: true,
+        appleTouchBackgroundColor: '#FFFFFF',
+        coast: true,
+        windowsTile: true,
+        tileBlackWhite: false,
+        tileColor: 'auto',
+        // html: '<%= config.dist %>/index.html',
+        // HTMLPrefix: '/images/icons/'
+      },
+      icon: {
+        src: '<%= config.app %>/images/favicons/favicon.png',
+        dest: '<%= config.dist %>/img/favicons'
+      }
+    },
+
+    // Deploy to Github Pages!!!
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'git@github.com:HumbleTributes/Sabriel.git',
+          branch: 'gh-pages'
+        }
+      },
+      local: {
+        options: {
+          remote: '../',
+          branch: 'build'
         }
       }
     }
   });
-  
-  grunt.registerTask('common', [
-    'clean',
-    'concurrent:dist',
-    'autoprefixer'
-    // 'rev'
-  ]);
 
-  grunt.registerTask('serve', function (target) {
+
+  grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
+    if (grunt.option('allow-remote')) {
+      grunt.config.set('connect.options.hostname', '0.0.0.0');
+    }
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
-      'common',
+      'clean:server',
+      'wiredep',
+      'concurrent:server',
+      'autoprefixer',
       'connect:livereload',
       'watch'
     ]);
@@ -266,7 +522,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', function (target) {
     if (target !== 'watch') {
       grunt.task.run([
-        'clean',
+        'clean:server',
         'concurrent:test',
         'autoprefixer'
       ]);
@@ -274,13 +530,26 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'connect:test',
+      'mocha'
     ]);
   });
 
   grunt.registerTask('build', [
-    'common',
-    'webfont',
-    'modernizr'
+    'clean:dist',
+    'concurrent:dist',
+    'wiredep',
+    'useminPrepare',
+    'autoprefixer',
+    'concat',
+    'cssmin',
+    'uglify',
+    'copy:dist',
+    'modernizr',
+    'favicons',
+    'rev',
+    'usemin',
+    'htmlmin',
+    'buildcontrol'
   ]);
 
   grunt.registerTask('default', [
