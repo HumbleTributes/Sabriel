@@ -11,7 +11,7 @@
 \*------------------------------------*/
 
 $red: #AC4133;
-$orange: #C36C0D;
+$orange: #D36E06;
 $gold: #F9E224;
 
 $black: #040E10;
@@ -83,7 +83,21 @@ html {
   line-height: 1.4;
   text-align: center;
 
+	background-color: $gold;
   color: $red;
+
+	@include bp("baby-bear") {
+		font-size: 125%;
+	}
+	@include bp("mama-bear") {
+		font-size: 150%;
+	}
+	@include bp("papa-bear") {
+		font-size: 175%;
+	}
+	@include bp("grizzly-bear") {
+		font-size: 180%;
+	}
 }
 
 body {
@@ -92,33 +106,149 @@ body {
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
+h3 {
   font-family: 'Tangerine', cursive;
+	font-weight: 700;
   line-height: 1;
+	margin: 1rem 0;
+}
+
+h1 {
+	font-size: 4em;
+}
+
+h2 {
+	font-size: 3em;
+}
+
+h3 {
+	font-size: 2.5em;
+}
+
+blockquote {
+	margin: 0;
+
+	font-style: italic;
+
+	footer {
+		font-style: normal;
+		font-size: 75%;
+	}
+	cite {
+
+	}
 }
 
 
 
-%screen-fill {
-  display: table;
-  height: 100%;
+.screen-fill {
+	display: table;
+	min-height: 100vh;
   width: 100%;
-}
-
-.screen-fill--top {
-  @extend %screen-fill;
-
-  background-color: $gold;
-  background-image: url(../images/mountain.jpeg);
-  background-position: center bottom;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .fill-content {
   display: table-cell;
   vertical-align: middle;
+}
+
+
+
+.constrain {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 30em;
+}
+
+.constrain--pull-left {
+	margin-right: auto;
+	max-width: 30em;
+	text-align: left;
+}
+
+.constrain--pull-right {
+	margin-left: auto;
+	max-width: 30em;
+	text-align: right;
+}
+
+
+
+%box {
+	padding: 1em;
+
+	@include bp("baby-bear") {
+		padding: 2em;
+	}
+	@include bp("mama-bear") {
+		padding: 3em;
+	}
+	@include bp("papa-bear") {
+		padding: 4em;
+	}
+	@include bp("grizzly-bear") {
+		padding: 5em;
+	}
+}
+
+%box-cover {
+	background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.box--top {
+	@extend %box;
+	@extend %box-cover;
+
+  background-image: url(../images/default/mountain.jpg);
+	text-shadow: 1px 1px black;
+
+	@include bp("baby-bear") {
+		background-image: url(../images/small/mountain.jpg);
+	}
+	@include bp("mama-bear") {
+		background-image: url(../images/medium/mountain.jpg);
+	}
+	@include bp("papa-bear") {
+		background-image: url(../images/large/mountain.jpg);
+	}
+	@include bp("grizzly-bear") {
+		background-image: url(../images/xlarge/mountain.jpg);
+	}
+}
+
+.box--bottom {
+	@extend %box;
+	@extend %box-cover;
+
+  background-image: url(../images/default/book.jpg);
+	text-shadow: 1px 1px black;
+
+	@include bp("baby-bear") {
+		background-image: url(../images/small/book.jpg);
+	}
+	@include bp("mama-bear") {
+		background-image: url(../images/medium/book.jpg);
+	}
+	@include bp("papa-bear") {
+		background-image: url(../images/large/book.jpg);
+	}
+	@include bp("grizzly-bear") {
+		background-image: url(../images/xlarge/book.jpg);
+	}
+}
+
+.box--light {
+	@extend %box;
+
+	background-color: $gold;
+	color: white;
+}
+
+.box--dark {
+	@extend %box;
+
+	background-color: $black;
+	color: white;
 }

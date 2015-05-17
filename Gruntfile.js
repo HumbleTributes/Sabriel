@@ -36,7 +36,7 @@ module.exports = function (grunt) {
       },
       images: {
         files: ['<%= config.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg}'],
-        tasks: ['newer:copy:images']
+        tasks: ['responsive_images', 'newer:copy:images']
       },
       js: {
       files: ['<%= config.app %>/scripts/{,*/}*.js'],
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['sass:server', 'autoprefixer', 'newer:copy:images']
+        tasks: ['sass:server', 'autoprefixer', 'responsive_images', 'newer:copy:images']
       },
       styles: {
         files: ['<%= config.app %>/styles/{,*/}*.css'],
@@ -492,6 +492,35 @@ module.exports = function (grunt) {
           branch: 'build'
         }
       }
+    },
+
+    responsive_images: {
+      create: {
+        options: {
+          sizes: [{
+            name: 'default',
+            width: 320
+          },{
+            name: 'small',
+            width: 480
+          },{
+            name: 'medium',
+            width: 600
+          },{
+            name: 'large',
+            width: 900
+          },{
+            name: 'xlarge',
+            width: 1200
+          }]
+        },
+        files: [{
+          expand: true,
+          src: ['*.{gif,jpeg,jpg,png,svg}'],
+          cwd: '<%= config.app %>/images',
+          custom_dest: '<%= config.app %>/images/{%= name %}/'
+        }]
+      }
     }
   });
 
@@ -507,6 +536,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'responsive_images',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -536,6 +566,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'responsive_images',
     'concurrent:dist',
     'wiredep',
     'useminPrepare',
