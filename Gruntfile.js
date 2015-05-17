@@ -77,7 +77,7 @@ module.exports = function (grunt) {
           '.tmp/{,*/}*.html',
           '.tmp/css/{,*/}*.css',
           '.tmp/js/{,*/}*.js',
-          '.tmp/img/{,*/}*.{gif,jpeg,jpg,png,svg}'
+          '.tmp/images/{,*/}*.{gif,jpeg,jpg,png,svg}'
         ]
       }
     },
@@ -222,7 +222,7 @@ module.exports = function (grunt) {
           src: [
             '<%= config.dist %>/js/{,*/}*.js',
             '<%= config.dist %>/css/{,*/}*.css',
-            '<%= config.dist %>/img/{,*/}*.{gif,jpeg,jpg,png,svg}',
+            '<%= config.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,svg}',
             '<%= config.dist %>/fonts/{,*/}*.*',
             '<%= config.dist %>/*.{ico,png}'
           ]
@@ -245,7 +245,7 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= config.dist %>',
-          '<%= config.dist %>/img',
+          '<%= config.dist %>/images',
           '<%= config.dist %>/css',
           '<%= config.dist %>/js'
         ]
@@ -262,7 +262,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= config.app %>/images',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
-          dest: '<%= config.dist %>/img'
+          dest: '<%= config.dist %>/images'
         }]
       }
     },
@@ -273,7 +273,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= config.app %>/images',
           src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/img'
+          dest: '<%= config.dist %>/images'
         }]
       }
     },
@@ -366,7 +366,7 @@ module.exports = function (grunt) {
         expand: true,
         dot: true,
         cwd: '<%= config.app %>/images',
-        dest: '.tmp/img/',
+        dest: '.tmp/images/',
         src: '{,*/}*.{gif,jpeg,jpg,png,svg}'
       }
     },
@@ -417,7 +417,7 @@ module.exports = function (grunt) {
         flatten: true,
         layout: 'default.hbs',
         layoutdir: '<%= config.app %>/templates/layouts',
-        assets: '<%= config.dist %>/img',
+        assets: '<%= config.dist %>/images',
         data: ['<%= config.app %>/templates/data/*.{json,yml}'],
         partials: ['<%= config.app %>/templates/partials/*.hbs']
       },
@@ -468,7 +468,7 @@ module.exports = function (grunt) {
       },
       icon: {
         src: '<%= config.app %>/images/favicons/favicon.png',
-        dest: '<%= config.dist %>/img/favicons'
+        dest: '<%= config.dist %>/images/favicons'
       }
     },
 
