@@ -1,26 +1,124 @@
 // bower:scss
 // endbower
 
+/*------------------------------------*\
+  PDCTO - Positioning, Display & Box
+	Model, Color, Text, Other
+\*------------------------------------*/
+
+/*------------------------------------*\
+  Variables
+\*------------------------------------*/
+
+$red: #AC4133;
+$orange: #C36C0D;
+$gold: #F9E224;
+
+$black: #040E10;
+$blue: #002F45;
+$turquoise: #10C3C8;
+
+/*------------------------------------*\
+  Mixins and Placeholders
+\*------------------------------------*/
+
+@mixin bp($point) {
+	@if $point == "baby-bear" {
+		@media (min-width: 30em) { @content; }
+	}
+	@else if $point == "mama-bear" {
+		@media (min-width: 37.5em) { @content; }
+	}
+	@else if $point == "papa-bear" {
+		@media (min-width: 56.25em) { @content; }
+	}
+	@else if $point == "grizzly-bear" {
+		@media (min-width: 75em)  { @content; }
+	}
+}
+
+%clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/*------------------------------------*\
+  Animations
+\*------------------------------------*/
+
+.js {
+  .wow {
+    visibility: hidden;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+/*------------------------------------*\
+  Code
+\*------------------------------------*/
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 html,
 body {
-
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 html {
-  font-family: 'Jim Nightshade', cursive;
-  font-family: 'Eagle Lake', cursive;
-  font-family: 'Felipa', cursive;
-  font-family: 'Marck Script', cursive;
-  font-family: 'Calligraffitti', cursive;
-  font-family: 'Tangerine', cursive;
-  font-family: 'Dancing Script', cursive;
-  font-family: 'Kaushan Script', cursive;
-  font-family: 'Courgette', cursive;
-  font-family: 'Satisfy', cursive;
+  box-sizing: border-box;
+
   font-family: 'Fondamento', cursive;
-  font-family: 'Dr Sugiyama', cursive;
+  font-size: 100%;
+  line-height: 1.4;
+  text-align: center;
+
+  color: $red;
 }
 
 body {
+  overflow-y: auto;
+}
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Tangerine', cursive;
+  line-height: 1;
+}
+
+
+
+%screen-fill {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.screen-fill--top {
+  @extend %screen-fill;
+
+  background-color: $gold;
+  background-image: url(../images/mountain.jpeg);
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.fill-content {
+  display: table-cell;
+  vertical-align: middle;
 }
