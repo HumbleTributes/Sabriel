@@ -146,7 +146,7 @@ module.exports = function (grunt) {
         reporter: require('jshint-stylish')
       },
       all: [
-        'Gruntfile.js',
+        '!Gruntfile.js',
         '<%= config.app %>/scripts/{,*/}*.js',
         '!<%= config.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
@@ -497,6 +497,7 @@ module.exports = function (grunt) {
     responsive_images: {
       create: {
         options: {
+          newFilesOnly: false,
           sizes: [{
             name: 'default',
             width: 320

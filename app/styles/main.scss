@@ -18,6 +18,8 @@ $black: #040E10;
 $blue: #002F45;
 $turquoise: #10C3C8;
 
+$easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
+
 /*------------------------------------*\
   Mixins and Placeholders
 \*------------------------------------*/
@@ -56,6 +58,50 @@ $turquoise: #10C3C8;
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
+	animation-timing-function: $easeOutQuint;
+}
+
+.fade-in-zoom {
+	animation-name: fade-in-zoom;
+}
+
+.fade-in-down {
+	animation-name: fade-in-down;
+}
+
+.fade-in {
+	animation-name: fade-in;
+}
+
+@keyframes fade-in-zoom {
+	from {
+		opacity: 0;
+		transform: scale3d(0.5, 0.5, 0.5);
+	}
+	to {
+		opacity: 1;
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes fade-in-down {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 /*------------------------------------*\
@@ -70,8 +116,8 @@ $turquoise: #10C3C8;
 
 html,
 body {
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
   width: 100%;
 }
 
@@ -163,18 +209,18 @@ blockquote {
 .constrain {
 	margin-left: auto;
 	margin-right: auto;
-	max-width: 30em;
+	max-width: 27.5em;
 }
 
 .constrain--pull-left {
 	margin-right: auto;
-	max-width: 30em;
+	max-width: 27.5em;
 	text-align: left;
 }
 
 .constrain--pull-right {
 	margin-left: auto;
-	max-width: 30em;
+	max-width: 27.5em;
 	text-align: right;
 }
 
@@ -221,6 +267,27 @@ blockquote {
 	}
 	@include bp("grizzly-bear") {
 		background-image: url(../images/xlarge/mountain.jpg);
+	}
+}
+
+.box--dark-water {
+	@extend %box;
+
+	background-color: $black;
+	background-image: url(../images/default/water.png), linear-gradient(to bottom, $blue, $black);
+	color: white;
+
+	@include bp("baby-bear") {
+		background-image: url(../images/small/water.png), linear-gradient(to bottom, $blue, $black);
+	}
+	@include bp("mama-bear") {
+		background-image: url(../images/medium/water.png), linear-gradient(to bottom, $blue, $black);
+	}
+	@include bp("papa-bear") {
+		background-image: url(../images/large/water.png), linear-gradient(to bottom, $blue, $black);
+	}
+	@include bp("grizzly-bear") {
+		background-image: url(../images/xlarge/water.png), linear-gradient(to bottom, $blue, $black);
 	}
 }
 
