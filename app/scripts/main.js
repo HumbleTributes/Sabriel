@@ -4,147 +4,107 @@
 
 new WOW().init();
 
-// var death = document.getElementById('ninth-precinct-canvas');
-// var title = document.getElementById('title-canvas');
+(function() {
 
-// ----------------------------------------
-// Particle
-// ----------------------------------------
+  // ----------------------------------------
+  // Charter Mark
+  // ----------------------------------------
 
-function Particle(x, y, radius) {
-  this.init(x, y, radius);
-}
+  function CharterMark() {
+    this.radius = random(1, 5);
+    this.colour = random(colours);
 
-Particle.prototype = {
+    this.x = random(charter.width);
+    this.y = random(charter.height, charter.height * 2);
 
-  init: function(x, y, radius) {
-
-    this.alive = true;
-
-    this.radius = radius || 10;
-    this.wander = 0.15;
-    this.theta = random(TWO_PI);
-    this.drag = 0.92;
-    this.color = '#fff';
-
-    this.x = x || 0.0;
-    this.y = y || 0.0;
-
-    this.vx = 0.0;
-    this.vy = 0.0;
-  },
-
-  move: function() {
-
-    this.x += this.vx;
-    this.y += this.vy;
-
-    this.vx *= this.drag;
-    this.vy *= this.drag;
-
-    this.theta += random(-0.5, 0.5) * this.wander;
-    this.vx += sin(this.theta) * 0.1;
-    this.vy += cos(this.theta) * 0.1;
-
-    this.radius *= 0.96;
-    this.alive = this.radius > 0.5;
-  },
-
-  draw: function(ctx) {
-
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, TWO_PI);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-  }
-};
-
-// ----------------------------------------
-// Example
-// ----------------------------------------
-
-var MAX_PARTICLES = 280;
-var COLOURS = ['#AC4133', '#D36E06', '#F9E224'];
-
-var particles = [];
-var pool = [];
-
-var demo = Sketch.create({
-  container: document.getElementById('title-canvas')
-});
-
-demo.setup = function() {
-
-  // Set off some initial particles.
-  var i, x, y;
-
-  for (i = 0; i < 20; i++) {
-    x = (demo.width * 0.5) + random(-100, 100);
-    y = (demo.height * 0.5) + random(-100, 100);
-    demo.spawn(x, y);
-  }
-};
-
-demo.spawn = function(x, y) {
-
-  var particle, theta, force;
-
-  if (particles.length >= MAX_PARTICLES) {
-    pool.push(particles.shift());
+    this.vx = 0;
+    this.vy = -random( 1, 10 ) / 5;
   }
 
-  particle = pool.length ? pool.pop() : new Particle();
-  particle.init(x, y, random(5, 40));
+  CharterMark.prototype = {
+    visible: function() {
+      if (this.y < 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    update: function() {
+      this.vx += (random(100) - 50) / 1000;
+      this.vy -= random(1, 20) / 10000;
 
-  particle.wander = random(0.5, 2.0);
-  particle.color = random(COLOURS);
-  particle.drag = random(0.9, 0.99);
+      this.x += this.vx;
+      this.y += this.vy;
 
-  theta = random(TWO_PI);
-  force = random(2, 8);
+      if (this.visible()) {
+        this.x = random(charter.width);
+        this.y = random(charter.height, charter.height * 2);
 
-  particle.vx = sin(theta) * force;
-  particle.vy = cos(theta) * force;
-
-  particles.push(particle);
-};
-
-demo.update = function() {
-
-  var i, particle;
-
-  for (i = particles.length - 1; i >= 0; i--) {
-
-    particle = particles[i];
-
-    if (particle.alive) {
-      particle.move();
-    } else {
-      pool.push(particles.splice(i, 1)[0]);
+        this.vx = 0;
+        this.vy = -random( 1, 10 ) / 5;
+      }
+    },
+    draw: function() {
+      charter.beginPath();
+      charter.arc(this.x, this.y, this.radius, 0, TWO_PI, false);
+      charter.closePath();
+      charter.strokeStyle = this.colour;
+      charter.fillStyle = this.colour;
+      charter.fill();
+      return charter.stroke();
     }
-  }
-};
+  };
 
-demo.draw = function() {
+  // ----------------------------------------
+  // Begin
+  // ----------------------------------------
 
-  demo.globalCompositeOperation = 'lighter';
+  var max = 50;
+  var colours = ['#AC4133', '#D36E06', '#F9E224'];
 
-  for (var i = particles.length - 1; i >= 0; i--) {
-    particles[i].draw(demo);
-  }
-};
+  var marks = [];
 
-demo.mousemove = function() {
+  var charter = Sketch.create({
+    container: document.getElementById('title-canvas')
+  });
 
-  var particle, theta, force, touch, max, i, j, n;
+  charter.globalComposition = 'lighter';
 
-  for (i = 0, n = demo.touches.length; i < n; i++) {
+  charter.setup = function() {
+    var i = 0;
 
-    touch = demo.touches[i];
-    max = random(1, 4);
-    for (j = 0; j < max; j++) {
-      demo.spawn(touch.x, touch.y);
+    while (max > i) {
+      marks.push(new CharterMark());
+      i++;
     }
+  };
 
-  }
-};
+  charter.update = function() {
+    var i, results;
+    i = marks.length;
+    results = [];
+    while (i--) {
+      results.push(marks[i].update());
+    }
+    return results;
+  };
+
+  charter.draw = function() {
+    var i, results;
+    i = marks.length;
+    results = [];
+    while (i--) {
+      results.push(marks[i].draw());
+    }
+    return results;
+  };
+
+}());
+
+(function() {
+  var max = 300;
+  var stars = [];
+  var canvas = document.getElementById('ninth-precinct-canvas');
+
+
+}());
