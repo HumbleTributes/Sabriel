@@ -249,6 +249,10 @@ blockquote {
   background-repeat: no-repeat;
 }
 
+.box--padded {
+	@extend %box;
+}
+
 .box--top {
 	@extend %box;
 	@extend %box-cover;
@@ -271,8 +275,6 @@ blockquote {
 }
 
 .box--dark-water {
-	@extend %box;
-
 	background-color: $black;
 	background-image: url(../images/default/water.png), linear-gradient(to bottom, $blue, $black);
 	color: white;
@@ -289,6 +291,14 @@ blockquote {
 	@include bp("grizzly-bear") {
 		background-image: url(../images/xlarge/water.png), linear-gradient(to bottom, $blue, $black);
 	}
+}
+
+.box--ninth-precinct {
+	@extend %box;
+	@extend %box-cover;
+
+  background-image: linear-gradient(transparent, $black 30%, $black);
+	height: 300vh;
 }
 
 .box--bottom {
@@ -324,4 +334,27 @@ blockquote {
 
 	background-color: $black;
 	color: white;
+}
+
+
+
+.canvas-container {
+	position: relative;
+}
+
+.canvas-sibling {
+	pointer-events: none;
+	position: relative;
+	z-index: 1;
+}
+
+.canvas-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+
+	display: block;
+	width: 100%;
+	height: 100%;
 }

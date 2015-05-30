@@ -36,10 +36,10 @@ module.exports = function (grunt) {
       },
       images: {
         files: ['<%= config.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg}'],
-        tasks: ['responsive_images', 'newer:copy:images']
+        tasks: ['newer:responsive_images', 'newer:copy:images']
       },
       js: {
-      files: ['<%= config.app %>/scripts/{,*/}*.js'],
+        files: ['<%= config.app %>/scripts/{,*/}*.js'],
         tasks: ['jshint', 'newer:copy:scripts'],
         options: {
           livereload: true
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['sass:server', 'autoprefixer', 'responsive_images', 'newer:copy:images']
+        tasks: ['sass:server', 'autoprefixer', 'newer:copy:images']
       },
       styles: {
         files: ['<%= config.app %>/styles/{,*/}*.css'],
