@@ -21,7 +21,7 @@ new WOW().init();
     this.colour = random(colours);
 
     this.image = new Image();
-    this.image.src = '/images/charter-mark-' + getRandomInt(1, 4) + '.svg';
+    this.image.src = charterImages[getRandomInt(0, charterImages.length - 1)];
 
     this.x = random(charter.width);
     this.y = random(charter.height, charter.height * 2);
@@ -78,7 +78,17 @@ new WOW().init();
   // ----------------------------------------
 
   var max = 100;
-  var colours = ['#AC4133', '#D36E06', '#F9E224'];
+  var colours = [
+    '#AC4133',
+    '#D36E06',
+    '#F9E224'
+  ];
+  var charterImages = [
+    './images/charter-mark-1.svg',
+    './images/charter-mark-2.svg',
+    './images/charter-mark-3.svg',
+    './images/charter-mark-4.svg'
+  ];
 
   var marks = [];
 
