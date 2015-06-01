@@ -2,6 +2,10 @@
 
 'use strict';
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 new WOW().init();
 
 (function() {
@@ -11,19 +15,24 @@ new WOW().init();
   // ----------------------------------------
 
   function CharterMark() {
-    this.radius = random(1, 5);
+    this.particle = false;
+
+    this.radius = random(5, 10);
     this.colour = random(colours);
+
+    this.image = new Image();
+    this.image.src = '/images/charter-mark-' + getRandomInt(1, 4) + '.svg';
 
     this.x = random(charter.width);
     this.y = random(charter.height, charter.height * 2);
 
     this.vx = 0;
-    this.vy = -random( 1, 10 ) / 5;
+    this.vy = -random(1, 10) / 5;
   }
 
   CharterMark.prototype = {
     visible: function() {
-      if (this.y < 0) {
+      if (this.y < -30 || this.radius < 0) {
         return true;
       } else {
         return false;
@@ -33,25 +42,34 @@ new WOW().init();
       this.vx += (random(100) - 50) / 1000;
       this.vy -= random(1, 20) / 10000;
 
+      this.radius -= random(5, 10) / 404;
+
       this.x += this.vx;
       this.y += this.vy;
 
       if (this.visible()) {
+        this.radius = random(5, 10);
+
         this.x = random(charter.width);
         this.y = random(charter.height, charter.height * 2);
 
         this.vx = 0;
-        this.vy = -random( 1, 10 ) / 5;
+        this.vy = -random(1, 10) / 5;
       }
     },
     draw: function() {
-      charter.beginPath();
-      charter.arc(this.x, this.y, this.radius, 0, TWO_PI, false);
-      charter.closePath();
-      charter.strokeStyle = this.colour;
-      charter.fillStyle = this.colour;
-      charter.fill();
-      return charter.stroke();
+      if (this.particle) {
+        charter.beginPath();
+        charter.arc(this.x, this.y, this.radius, 0, TWO_PI, false);
+        charter.closePath();
+        charter.strokeStyle = 'rgba(0, 0, 0, 0)';
+        charter.fillStyle = this.pattern;
+        charter.fillStyle = this.colour;
+        charter.fill();
+        charter.stroke();
+      } else {
+        charter.drawImage(this.image, this.x, this.y, this.radius * 4, this.radius * 4);
+      }
     }
   };
 
@@ -59,7 +77,7 @@ new WOW().init();
   // Begin
   // ----------------------------------------
 
-  var max = 50;
+  var max = 100;
   var colours = ['#AC4133', '#D36E06', '#F9E224'];
 
   var marks = [];
