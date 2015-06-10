@@ -17,7 +17,7 @@ new WOW().init();
   function CharterMark() {
     this.particle = false;
 
-    this.radius = random(5, 10);
+    this.radius = random(3, 9);
     this.colour = random(colours);
 
     this.image = new Image();
@@ -42,13 +42,13 @@ new WOW().init();
       this.vx += (random(100) - 50) / 1000;
       this.vy -= random(1, 20) / 10000;
 
-      this.radius -= random(5, 10) / 404;
+      this.radius -= random(5, 15) / 404;
 
       this.x += this.vx;
       this.y += this.vy;
 
       if (this.visible()) {
-        this.radius = random(5, 10);
+        this.radius = random(3, 9);
 
         this.x = random(charter.width);
         this.y = random(charter.height, charter.height * 2);
@@ -96,10 +96,10 @@ new WOW().init();
     container: document.getElementById('title-canvas')
   });
 
-  charter.globalComposition = 'lighter';
-
   charter.setup = function() {
     var i = 0;
+
+    charter.globalComposition = 'lighter';
 
     while (max > i) {
       marks.push(new CharterMark());
@@ -126,13 +126,5 @@ new WOW().init();
     }
     return results;
   };
-
-}());
-
-(function() {
-  var max = 300;
-  var stars = [];
-  var canvas = document.getElementById('ninth-precinct-canvas');
-
 
 }());

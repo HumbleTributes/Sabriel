@@ -18,6 +18,7 @@ $black: #040E10;
 $blue: #002F45;
 $turquoise: #10C3C8;
 
+$easeInQuart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
 $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 
 /*------------------------------------*\
@@ -101,6 +102,27 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 	}
 	to {
 		opacity: 1;
+	}
+}
+
+@keyframes twinkle {
+	from {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes float {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(100vw);
 	}
 }
 
@@ -345,7 +367,6 @@ blockquote {
 }
 
 .canvas-sibling {
-	pointer-events: none;
 	position: relative;
 	z-index: 1;
 }
@@ -371,5 +392,92 @@ blockquote {
 		height: 100%;
 
 		content: "";
+	}
+}
+
+$max: 300;
+$colours: #002F45, #10C3C8, #6DC7BE, #10DCE3, #C9F0EF;
+
+#ninth-precinct-canvas {
+	overflow: hidden;
+
+	background-image: url(../images/outline.png), url(../images/horizon.png);
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+
+	.stars {
+
+	}
+	.star {
+		position: absolute;
+
+		border-radius: 50%;
+
+		@for $i from 1 through $max {
+			&:nth-child(#{$i}) {
+				$radius: random(25) / 100;
+				$top: percentage(random(100)) / 100 + random(30);
+				$left: percentage(random(100)) / 100;
+				$colour: nth($colours, random(length($colours)));
+				$finalColour: rgba($colour, random());
+
+				display: block;
+				height: #{$radius}em;
+				width: #{$radius}em;
+
+				top: $top;
+				left: $left;
+
+				background-color: $finalColour;
+				box-shadow: 0 0 #{$radius}em $finalColour;
+
+				@if (random() > 0.5) {
+					$delay: #{random(3) * 1000}ms;
+					$duration: #{random(3) * 2000}ms;
+
+					animation-name: twinkle;
+					animation-delay: $delay;
+					animation-duration: $duration;
+					animation-iteration-count: infinite;
+					animation-timing-function: $easeInQuart;
+					animation-fill-mode: both;
+				}
+			}
+		}
+	}
+	.clouds {
+
+	}
+	.cloud {
+		position: absolute;
+		left: 0;
+		transform: translateX(-100%);
+
+		display: block;
+		width: 10em;
+		height: 10em;
+
+		background-image: url(../images/cloud.png);
+		background-repeat: no-repeat;
+		background-size: 100%;
+
+		animation-name: float;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+
+		@for $i from 1 through 20 {
+			&:nth-child(#{$i}) {
+				$top: percentage(random(50)) / 100 + 20;
+				$delay: #{random(5) * 5000}ms;
+				$duration: #{random(5) * 20000}ms;
+
+				top: $top;
+
+				animation-delay: $delay;
+				animation-duration: $duration;
+			}
+		}
 	}
 }
