@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="225px" height="241px" viewBox="0 0 225 241" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>charter-mark-2</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Charter-Marks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="charter-mark-2" sketch:type="MSLayerGroup" transform="translate(5.000000, 5.000000)" stroke="#D36E06" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+            <polygon id="Triangle-1" sketch:type="MSShapeGroup" points="103 0 203 200 3 200 "></polygon>
+            <path d="M215,86.9496354 C215,86.9496354 181.919383,78.8637698 152.902139,81.5447838 C122.168391,84.3843923 94.7493762,98 70.098807,98 C46.3565243,98 0,86.9496354 0,86.9496354" id="Path-3" sketch:type="MSShapeGroup"></path>
+            <path d="M103.398438,96.78125 C103.398438,96.78125 110.769531,130.670573 110.769531,149.265625 C110.769531,175.191925 103.398438,230.345307 103.398438,230.345307" id="Path-4" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

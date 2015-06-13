@@ -6,7 +6,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-new WOW().init();
+new WOW({
+  mobile: false
+}).init();
 
 (function() {
 
@@ -93,7 +95,7 @@ new WOW().init();
   var marks = [];
 
   var charter = Sketch.create({
-    container: document.getElementById('title-canvas')
+    container: document.getElementById('charter-canvas')
   });
 
   charter.setup = function() {

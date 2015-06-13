@@ -122,7 +122,7 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 		transform: translateX(-100%);
 	}
 	to {
-		transform: translateX(100vw);
+		transform: translateX(calc(100vw + 100%));
 	}
 }
 
@@ -151,8 +151,8 @@ html {
   line-height: 1.4;
   text-align: center;
 
-	background-color: $gold;
-  color: $red;
+	background-color: $black;
+  color: white;
 
 	@include bp("baby-bear") {
 		font-size: 125%;
@@ -217,40 +217,16 @@ blockquote {
 
 
 
-.screen-fill {
-	display: table;
-	min-height: 100vh;
-  width: 100%;
-}
-
-.fill-content {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-
-
 .constrain {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 27.5em;
 }
 
-.constrain--pull-left {
-	margin-right: auto;
-	max-width: 27.5em;
-	text-align: left;
-}
-
-.constrain--pull-right {
-	margin-left: auto;
-	max-width: 27.5em;
-	text-align: right;
-}
 
 
-
-%box {
+%box,
+.box {
 	padding: 1em;
 
 	@include bp("baby-bear") {
@@ -267,97 +243,30 @@ blockquote {
 	}
 }
 
-%box-cover {
-	background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.box--intro {
+	@extend %box;
+
+  text-shadow: 1px 1px black;
 }
 
-.box--padded {
+.box--thanks {
 	@extend %box;
-}
 
-.box--top {
-	@extend %box;
-	@extend %box-cover;
+	display: table;
+	min-height: 100vh;
+	width: 100%;
 
-  background-image: url(../images/default/mountain.jpg);
+	background-image: radial-gradient(circle at 50% 0%, transparent, transparent 70%, rgba($orange, 0.1) 100%);
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: cover;
+
 	text-shadow: 1px 1px black;
 
-	@include bp("baby-bear") {
-		background-image: url(../images/small/mountain.jpg);
+	.box-content {
+		display: table-cell;
+		vertical-align: middle;
 	}
-	@include bp("mama-bear") {
-		background-image: url(../images/medium/mountain.jpg);
-	}
-	@include bp("papa-bear") {
-		background-image: url(../images/large/mountain.jpg);
-	}
-	@include bp("grizzly-bear") {
-		background-image: url(../images/xlarge/mountain.jpg);
-	}
-}
-
-.box--dark-water {
-	background-color: $black;
-	background-image: url(../images/default/water.png), linear-gradient(to bottom, $blue, $black);
-	color: white;
-
-	@include bp("baby-bear") {
-		background-image: url(../images/small/water.png), linear-gradient(to bottom, $blue, $black);
-	}
-	@include bp("mama-bear") {
-		background-image: url(../images/medium/water.png), linear-gradient(to bottom, $blue, $black);
-	}
-	@include bp("papa-bear") {
-		background-image: url(../images/large/water.png), linear-gradient(to bottom, $blue, $black);
-	}
-	@include bp("grizzly-bear") {
-		background-image: url(../images/xlarge/water.png), linear-gradient(to bottom, $blue, $black);
-	}
-}
-
-.box--ninth-precinct {
-	@extend %box;
-	@extend %box-cover;
-
-  background-image: linear-gradient(transparent, $black 30%, $black);
-	height: 300vh;
-}
-
-.box--bottom {
-	@extend %box;
-	@extend %box-cover;
-
-  background-image: url(../images/default/book.jpg);
-	text-shadow: 1px 1px black;
-
-	@include bp("baby-bear") {
-		background-image: url(../images/small/book.jpg);
-	}
-	@include bp("mama-bear") {
-		background-image: url(../images/medium/book.jpg);
-	}
-	@include bp("papa-bear") {
-		background-image: url(../images/large/book.jpg);
-	}
-	@include bp("grizzly-bear") {
-		background-image: url(../images/xlarge/book.jpg);
-	}
-}
-
-.box--light {
-	@extend %box;
-
-	background-color: $gold;
-	color: white;
-}
-
-.box--dark {
-	@extend %box;
-
-	background-color: $black;
-	color: white;
 }
 
 
@@ -395,29 +304,156 @@ blockquote {
 	}
 }
 
-$max: 300;
-$colours: #002F45, #10C3C8, #6DC7BE, #10DCE3, #C9F0EF;
+.holehallow-container {
+	position: relative;
+	z-index: 0;
 
-#ninth-precinct-canvas {
-	overflow: hidden;
+	.holehallow {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
 
-	background-image: url(../images/outline.png), url(../images/horizon.png);
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.holehallow-content {
+		position: relative;
+		z-index: 1;
+
+		padding-top: 6em;
+		padding-bottom: 6em;
+
+		color: $gold;
+	}
+}
+
+.holehallow {
+	background-color: $blue;
+	background-image: radial-gradient(circle at 50% 100%, $blue, darken($blue, 5%) 100%);
 	background-position: center bottom;
 	background-repeat: no-repeat;
-	background-size: contain;
+	background-size: cover;
 
-	.stars {
+	overflow: hidden;
 
-	}
-	.star {
+	.sinkhole {
 		position: absolute;
+		top: 0;
+		left: 0;
 
+		display: block;
+		width: 100%;
+		height: 100%;
+
+		background-image: url(../images/sinkhole-lip.svg);
+		background-position: center bottom;
+		background-repeat: no-repeat;
+		background-size: 110% auto;
+	}
+
+	.cloud {
+		display: block;
+		width: 7em;
+		height: 4em;
+
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		transform: translate(-100%, -100%);
+
+		background-image: url(../images/small/cloud.png);
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+
+		animation-name: float;
+		animation-delay: 5000ms;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+
+		&:nth-child(1) {
+			bottom: 10%;
+
+			animation-delay: 5000ms;
+			animation-duration: 20000ms;
+		}
+		&:nth-child(2) {
+			bottom: 25%;
+
+			animation-delay: 7000ms;
+			animation-duration: 30000ms;
+		}
+		&:nth-child(3) {
+			bottom: 40%;
+
+			animation-delay: 10000ms;
+			animation-duration: 40000ms;
+		}
+		&:nth-child(4) {
+			bottom: 55%;
+
+			animation-delay: 8000ms;
+			animation-duration: 25000ms;
+		}
+
+		.js & {
+			animation-play-state: paused;
+
+			&.animated {
+				animation-play-state: running;
+			}
+		}
+	}
+
+	.moon {
+		display: block;
+		width: 2em;
+		height: 2em;
+
+		position: absolute;
+		top: 25%;
+		right: 10%;
+
+		background-image: url(../images/moon.svg);
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+
+		@include bp("baby-bear") {
+			width: 2em;
+			height: 2em;
+		}
+		@include bp("mama-bear") {
+			width: 2em;
+			height: 2em;
+		}
+		@include bp("papa-bear") {
+			width: 3em;
+			height: 3em;
+		}
+		@include bp("grizzly-bear") {
+			width: 4em;
+			height: 4em;
+		}
+	}
+
+	.star {
+		display: block;
 		border-radius: 50%;
 
-		@for $i from 1 through $max {
+		position: absolute;
+
+		$stars: 500;
+		$colours: #002F45, #10C3C8, #6DC7BE, #10DCE3, #C9F0EF;
+
+		@for $i from 1 through $stars {
 			&:nth-child(#{$i}) {
-				$radius: random(25) / 100;
-				$top: percentage(random(100)) / 100 + random(30);
+				$radius: random(10) / 100;
+				$top: percentage(random(100)) / 100;
 				$left: percentage(random(100)) / 100;
 				$colour: nth($colours, random(length($colours)));
 				$finalColour: rgba($colour, random());
@@ -443,40 +479,6 @@ $colours: #002F45, #10C3C8, #6DC7BE, #10DCE3, #C9F0EF;
 					animation-timing-function: $easeInQuart;
 					animation-fill-mode: both;
 				}
-			}
-		}
-	}
-	.clouds {
-
-	}
-	.cloud {
-		position: absolute;
-		left: 0;
-		transform: translateX(-100%);
-
-		display: block;
-		width: 10em;
-		height: 10em;
-
-		background-image: url(../images/cloud.png);
-		background-repeat: no-repeat;
-		background-size: 100%;
-
-		animation-name: float;
-		animation-iteration-count: infinite;
-		animation-timing-function: linear;
-		animation-fill-mode: both;
-
-		@for $i from 1 through 20 {
-			&:nth-child(#{$i}) {
-				$top: percentage(random(50)) / 100 + 20;
-				$delay: #{random(5) * 5000}ms;
-				$duration: #{random(5) * 20000}ms;
-
-				top: $top;
-
-				animation-delay: $delay;
-				animation-duration: $duration;
 			}
 		}
 	}
