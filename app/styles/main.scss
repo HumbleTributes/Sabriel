@@ -383,31 +383,6 @@ blockquote {
 	box-shadow: 0 0 1.5px #C9F0EF;
 }
 
-%star-animation-one {
-	animation-delay: 1000ms;
-	animation-duration: 2000ms;
-}
-
-%star-animation-two {
-	animation-delay: 2000ms;
-	animation-duration: 2000ms;
-}
-
-%star-animation-three {
-	animation-delay: 3000ms;
-	animation-duration: 4000ms;
-}
-
-%star-animation-four {
-	animation-delay: 1000ms;
-	animation-duration: 6000ms;
-}
-
-%star-animation-five {
-	animation-delay: 2000ms;
-	animation-duration: 4000ms;
-}
-
 .holehallow {
 	background-color: $blue;
 	background-image: radial-gradient(circle at 50% 100%, $blue, darken($blue, 5%) 100%);
@@ -561,25 +536,12 @@ blockquote {
 				}
 
 				@if (random() > 0.5) {
-					$star-animation-type: random(5);
+					$delay: #{random(3) * 1000}ms;
+					$duration: #{random(3) * 2000}ms;
 
 					@extend %star-animation;
-
-					@if $star-animation-type == 1 {
-						@extend %star-animation-one;
-					}
-					@else if $star-animation-type == 2 {
-						@extend %star-animation-two;
-					}
-					@else if $star-animation-type == 3 {
-						@extend %star-animation-three;
-					}
-					@else if $star-animation-type == 4 {
-						@extend %star-animation-four;
-					}
-					@else {
-						@extend %star-animation-five;
-					}
+					animation-delay: $delay;
+					animation-duration: $duration;
 				}
 			}
 		}
