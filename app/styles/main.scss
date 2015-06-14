@@ -40,6 +40,10 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 	}
 }
 
+@mixin _($name) {
+	@extend %#{$name} !optional;
+}
+
 %clearfix:after {
   content: "";
   display: table;
@@ -66,8 +70,8 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 	animation-name: fade-in-zoom;
 }
 
-.fade-in-down {
-	animation-name: fade-in-down;
+.fade-in-up {
+	animation-name: fade-in-up;
 }
 
 .fade-in {
@@ -85,10 +89,10 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 	}
 }
 
-@keyframes fade-in-down {
+@keyframes fade-in-up {
 	from {
 		opacity: 0;
-		transform: translate3d(0, -100%, 0);
+		transform: translate3d(0, 10%, 0);
 	}
 	to {
 		opacity: 1;
@@ -236,10 +240,10 @@ blockquote {
 		padding: 3em;
 	}
 	@include bp("papa-bear") {
-		padding: 4em;
+		padding: 3em 4em;
 	}
 	@include bp("grizzly-bear") {
-		padding: 5em;
+		padding: 3em 5em;
 	}
 }
 
@@ -247,6 +251,13 @@ blockquote {
 	@extend %box;
 
   text-shadow: 1px 1px black;
+}
+
+.box--mogget-freed {
+	@extend %box;
+
+	background-color: white;
+	color: $red;
 }
 
 .box--thanks {
@@ -330,6 +341,73 @@ blockquote {
 	}
 }
 
+%star-animation {
+	animation-name: twinkle;
+	animation-iteration-count: infinite;
+	animation-timing-function: $easeInQuart;
+	animation-fill-mode: both;
+}
+
+%star-fat {
+	height: 1px;
+	width: 1px;
+}
+
+%star-normal {
+	height: 1.5px;
+	width: 1.5px;
+}
+
+%star-thin {
+	height: 2px;
+	width: 2px;
+}
+
+%star-blue {
+	background-color: #002F45;
+	box-shadow: 0 0 1.5px #002F45;
+}
+
+%star-turquiose {
+	background-color: #10C3C8;
+	box-shadow: 0 0 1.5px #10C3C8;
+}
+
+%star-aqua {
+	background-color: #6DC7BE;
+	box-shadow: 0 0 1.5px #6DC7BE;
+}
+
+%star-whiteish {
+	background-color: #C9F0EF;
+	box-shadow: 0 0 1.5px #C9F0EF;
+}
+
+%star-animation-one {
+	animation-delay: 1000ms;
+	animation-duration: 2000ms;
+}
+
+%star-animation-two {
+	animation-delay: 2000ms;
+	animation-duration: 2000ms;
+}
+
+%star-animation-three {
+	animation-delay: 3000ms;
+	animation-duration: 4000ms;
+}
+
+%star-animation-four {
+	animation-delay: 1000ms;
+	animation-duration: 6000ms;
+}
+
+%star-animation-five {
+	animation-delay: 2000ms;
+	animation-duration: 4000ms;
+}
+
 .holehallow {
 	background-color: $blue;
 	background-image: radial-gradient(circle at 50% 100%, $blue, darken($blue, 5%) 100%);
@@ -379,25 +457,34 @@ blockquote {
 			bottom: 10%;
 
 			animation-delay: 5000ms;
-			animation-duration: 20000ms;
+			animation-duration: 100000ms;
 		}
 		&:nth-child(2) {
 			bottom: 25%;
 
-			animation-delay: 7000ms;
-			animation-duration: 30000ms;
+			animation-delay: 70000ms;
+			animation-duration: 80000ms;
 		}
 		&:nth-child(3) {
 			bottom: 40%;
 
 			animation-delay: 10000ms;
-			animation-duration: 40000ms;
+			animation-duration: 100000ms;
 		}
 		&:nth-child(4) {
 			bottom: 55%;
 
-			animation-delay: 8000ms;
-			animation-duration: 25000ms;
+			animation-delay: 14000ms;
+			animation-duration: 70000ms;
+		}
+
+		@include bp("papa-bear") {
+			width: 10em;
+			height: 6em;
+		}
+		@include bp("grizzly-bear") {
+			width: 12em;
+			height: 8em;
 		}
 
 		.js & {
@@ -423,14 +510,6 @@ blockquote {
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 
-		@include bp("baby-bear") {
-			width: 2em;
-			height: 2em;
-		}
-		@include bp("mama-bear") {
-			width: 2em;
-			height: 2em;
-		}
 		@include bp("papa-bear") {
 			width: 3em;
 			height: 3em;
@@ -447,37 +526,60 @@ blockquote {
 
 		position: absolute;
 
-		$stars: 500;
-		$colours: #002F45, #10C3C8, #6DC7BE, #10DCE3, #C9F0EF;
-
-		@for $i from 1 through $stars {
+		@for $i from 1 through 500 {
 			&:nth-child(#{$i}) {
-				$radius: random(10) / 100;
 				$top: percentage(random(100)) / 100;
 				$left: percentage(random(100)) / 100;
-				$colour: nth($colours, random(length($colours)));
-				$finalColour: rgba($colour, random());
 
-				display: block;
-				height: #{$radius}em;
-				width: #{$radius}em;
+				$star-type: random(3);
+				$star-colour: random(4);
 
 				top: $top;
 				left: $left;
 
-				background-color: $finalColour;
-				box-shadow: 0 0 #{$radius}em $finalColour;
+				@if $star-type == 1 {
+					@extend %star-fat;
+				}
+				@else if $star-type == 2 {
+					@extend %star-normal;
+				}
+				@else {
+					@extend %star-thin;
+				}
+
+				@if $star-colour == 1 {
+					@extend %star-blue;
+				}
+				@else if $star-colour == 2 {
+					@extend %star-turquiose;
+				}
+				@else if $star-colour == 3 {
+					@extend %star-aqua;
+				}
+				@else {
+					@extend %star-whiteish;
+				}
 
 				@if (random() > 0.5) {
-					$delay: #{random(3) * 1000}ms;
-					$duration: #{random(3) * 2000}ms;
+					$star-animation-type: random(5);
 
-					animation-name: twinkle;
-					animation-delay: $delay;
-					animation-duration: $duration;
-					animation-iteration-count: infinite;
-					animation-timing-function: $easeInQuart;
-					animation-fill-mode: both;
+					@extend %star-animation;
+
+					@if $star-animation-type == 1 {
+						@extend %star-animation-one;
+					}
+					@else if $star-animation-type == 2 {
+						@extend %star-animation-two;
+					}
+					@else if $star-animation-type == 3 {
+						@extend %star-animation-three;
+					}
+					@else if $star-animation-type == 4 {
+						@extend %star-animation-four;
+					}
+					@else {
+						@extend %star-animation-five;
+					}
 				}
 			}
 		}
