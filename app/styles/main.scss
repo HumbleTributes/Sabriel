@@ -78,6 +78,12 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 	animation-name: fade-in;
 }
 
+.float {
+	animation-name: float;
+	animation-timing-function: linear;
+	animation-fill-mode: both;
+}
+
 @keyframes fade-in-zoom {
 	from {
 		opacity: 0;
@@ -123,6 +129,7 @@ $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 
 @keyframes float {
 	from {
+		left: 0;
 		transform: translateX(-100%);
 	}
 	to {
@@ -385,7 +392,7 @@ blockquote {
 
 .holehallow {
 	background-color: $blue;
-	background-image: radial-gradient(circle at 50% 100%, $blue, darken($blue, 5%) 100%);
+	background-image: radial-gradient(circle at 50% 100%, $blue, darken($blue, 7%) 100%);
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -407,6 +414,15 @@ blockquote {
 		background-size: 110% auto;
 	}
 
+	.clouds {
+		@include bp("papa-bear") {
+			font-size: 1.2em;
+		}
+		@include bp("grizzly-bear") {
+			font-size: 1.4em;
+		}
+	}
+
 	.cloud {
 		display: block;
 		width: 7em;
@@ -415,59 +431,35 @@ blockquote {
 		position: absolute;
 		bottom: 0;
 		left: 0;
-		transform: translate(-100%, -100%);
 
 		background-image: url(../images/cloud.png);
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: contain;
 
-		animation-name: float;
-		animation-delay: 5000ms;
-		animation-iteration-count: infinite;
-		animation-timing-function: linear;
-		animation-fill-mode: both;
-
 		&:nth-child(1) {
-			bottom: 10%;
+			font-size: 1.25em;
 
-			animation-delay: 5000ms;
-			animation-duration: 100000ms;
+			bottom: 10%;
+			left: 5%;
 		}
 		&:nth-child(2) {
-			bottom: 25%;
+			font-size: 1em;
 
-			animation-delay: 70000ms;
-			animation-duration: 80000ms;
+			bottom: 30%;
+			left: 20%;
 		}
 		&:nth-child(3) {
-			bottom: 40%;
+			font-size: 1.2em;
 
-			animation-delay: 10000ms;
-			animation-duration: 100000ms;
+			bottom: 10%;
+			left: 40%;
 		}
 		&:nth-child(4) {
-			bottom: 55%;
+			font-size: 1.5em;
 
-			animation-delay: 14000ms;
-			animation-duration: 70000ms;
-		}
-
-		@include bp("papa-bear") {
-			width: 10em;
-			height: 6em;
-		}
-		@include bp("grizzly-bear") {
-			width: 12em;
-			height: 8em;
-		}
-
-		.js & {
-			animation-play-state: paused;
-
-			&.animated {
-				animation-play-state: running;
-			}
+			bottom: 30%;
+			left: 60%;
 		}
 	}
 
@@ -495,55 +487,16 @@ blockquote {
 		}
 	}
 
-	.star {
-		display: block;
-		border-radius: 50%;
-
+	.stars {
 		position: absolute;
+		top: 0;
+		left: 0;
 
-		@for $i from 1 through 500 {
-			&:nth-child(#{$i}) {
-				$top: percentage(random(100)) / 100;
-				$left: percentage(random(100)) / 100;
+		display: block;
+		width: 100%;
+		height: 100%;
 
-				$star-type: random(3);
-				$star-colour: random(4);
-
-				top: $top;
-				left: $left;
-
-				@if $star-type == 1 {
-					@extend %star-fat;
-				}
-				@else if $star-type == 2 {
-					@extend %star-normal;
-				}
-				@else {
-					@extend %star-thin;
-				}
-
-				@if $star-colour == 1 {
-					@extend %star-blue;
-				}
-				@else if $star-colour == 2 {
-					@extend %star-turquiose;
-				}
-				@else if $star-colour == 3 {
-					@extend %star-aqua;
-				}
-				@else {
-					@extend %star-whiteish;
-				}
-
-				@if (random() > 0.5) {
-					$delay: #{random(3) * 1000}ms;
-					$duration: #{random(3) * 2000}ms;
-
-					@extend %star-animation;
-					animation-delay: $delay;
-					animation-duration: $duration;
-				}
-			}
-		}
+		background-image: url(../images/stars.svg);
+		background-size: 9em auto;
 	}
 }
